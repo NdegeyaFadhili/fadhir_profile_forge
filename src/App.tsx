@@ -1,3 +1,4 @@
+import * as React from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -11,25 +12,36 @@ import Auth from "@/pages/Auth";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <TooltipProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/auth" element={<Auth />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </TooltipProvider>
-      </AuthProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
-);
+const App = () => {
+  return React.createElement(
+    HelmetProvider,
+    null,
+    React.createElement(
+      QueryClientProvider,
+      { client: queryClient },
+      React.createElement(
+        AuthProvider,
+        null,
+        React.createElement(
+          TooltipProvider,
+          null,
+          React.createElement(Toaster),
+          React.createElement(Sonner),
+          React.createElement(
+            BrowserRouter,
+            null,
+            React.createElement(
+              Routes,
+              null,
+              React.createElement(Route, { path: "/", element: React.createElement(Index) }),
+              React.createElement(Route, { path: "/auth", element: React.createElement(Auth) }),
+              React.createElement(Route, { path: "*", element: React.createElement(NotFound) })
+            )
+          )
+        )
+      )
+    )
+  );
+};
 
 export default App;

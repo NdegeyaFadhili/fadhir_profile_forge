@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import * as React from "react";
 import type { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -8,14 +8,14 @@ interface AuthContextValue {
   loading: boolean;
 }
 
-const AuthContext = createContext<AuthContextValue>({ user: null, session: null, loading: true });
+const AuthContext = React.createContext<AuthContextValue>({ user: null, session: null, loading: true });
 
 export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = React.useState<User | null>(null);
+  const [session, setSession] = React.useState<Session | null>(null);
+  const [loading, setLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     // Set up auth state listener FIRST
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
       setSession(newSession);
@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<React.PropsWithChildren> = ({ children }) =>
     };
   }, []);
 
-  return <AuthContext.Provider value={{ user, session, loading }}>{children}</AuthContext.Provider>;
+  return React.createElement(AuthContext.Provider, { value: { user, session, loading } }, children);
 };
 
-export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => React.useContext(AuthContext);

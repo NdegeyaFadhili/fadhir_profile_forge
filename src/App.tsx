@@ -1,14 +1,14 @@
 import React from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Index from "./pages/Index";
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Index />} />
-      </Routes>
-    </BrowserRouter>
+    <div className="flex min-h-screen items-center justify-center bg-background">
+      <div className="text-center">
+        <h1 className="mb-4 text-4xl font-bold">Ihirwe Ndegeya Fadhiri</h1>
+        <p className="text-xl text-muted-foreground">Professional Portfolio</p>
+        <p className="text-sm text-muted-foreground mt-4">React is working!</p>
+      </div>
+    </div>
   );
 };
 

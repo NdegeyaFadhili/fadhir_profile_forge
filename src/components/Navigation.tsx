@@ -8,6 +8,8 @@ const Navigation = () => {
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
           <a href="#home" className="hover:text-primary">Home</a>
           <a href="#about" className="hover:text-primary">About</a>
+          <a href="#skills" className="hover:text-primary">Skills</a>
+          <a href="#experience" className="hover:text-primary">Experience</a>
           <a href="#projects" className="hover:text-primary">Projects</a>
           <a href="#certificates" className="hover:text-primary">Certificates</a>
           <a href="#references" className="hover:text-primary">References</a>

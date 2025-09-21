@@ -112,7 +112,7 @@ const Index = () => {
 
       <footer className="border-t py-8">
         <div className="container mx-auto px-6 text-center text-muted-foreground">
-          <p>&copy; 2024 Ihirwe Ndegeya Fadhiri. All rights reserved.</p>
+          <p>&copy; 2024 Ndegeya Fadhiri. All rights reserved.</p>
         </div>
       </footer>
     </div>

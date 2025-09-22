@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import FileUpload from "@/components/ui/file-upload";
 import type { Database } from "@/integrations/supabase/types";
 
 type Profile = Database['public']['Tables']['profiles']['Row'];
@@ -146,10 +147,11 @@ const ProfileManager = () => {
             />
           </div>
           <div>
-            <label className="text-sm font-medium">Profile Image URL</label>
-            <Input
+            <label className="text-sm font-medium">Profile Image</label>
+            <FileUpload
+              bucket="profile-images"
               value={formData.profile_image_url || ''}
-              onChange={(e) => handleInputChange('profile_image_url', e.target.value)}
+              onUpload={(url) => handleInputChange('profile_image_url', url)}
               disabled={!isEditing}
             />
           </div>

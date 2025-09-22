@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
+import FileUpload from "@/components/ui/file-upload";
 import { Plus, Edit, Trash2, ExternalLink } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -198,10 +199,11 @@ const CertificatesManager = () => {
                 />
               </div>
               <div>
-                <label className="text-sm font-medium">Image URL</label>
-                <Input
+                <label className="text-sm font-medium">Certificate Image</label>
+                <FileUpload
+                  bucket="certificate-images"
                   value={formData.image_url || ''}
-                  onChange={(e) => handleInputChange('image_url', e.target.value)}
+                  onUpload={(url) => handleInputChange('image_url', url)}
                 />
               </div>
               <div>
@@ -209,6 +211,7 @@ const CertificatesManager = () => {
                 <Input
                   value={formData.credential_url || ''}
                   onChange={(e) => handleInputChange('credential_url', e.target.value)}
+                  placeholder="https://www.credential-site.com/verify"
                 />
               </div>
               <div>
@@ -255,7 +258,9 @@ const CertificatesManager = () => {
                 <div className="flex space-x-2">
                   {certificate.credential_url && (
                     <Button variant="outline" size="sm" asChild>
-                      <a href={certificate.credential_url} target="_blank" rel="noopener noreferrer">
+                      <a href={certificate.credential_url.startsWith('http') ? certificate.credential_url : `https://${certificate.credential_url}`} 
+                         target="_blank" 
+                         rel="noopener noreferrer">
                         <ExternalLink className="w-4 h-4" />
                       </a>
                     </Button>

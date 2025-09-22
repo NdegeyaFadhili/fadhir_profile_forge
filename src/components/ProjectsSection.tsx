@@ -74,12 +74,12 @@ const ProjectsSection = () => {
                 )}
                 <div className="flex gap-3">
                   {project.github_url && (
-                    <a href={project.github_url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
+                    <a href={project.github_url.startsWith('http') ? project.github_url : `https://${project.github_url}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                       GitHub
                     </a>
                   )}
                   {project.demo_url && (
-                    <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="text-sm text-primary hover:underline">
+                    <a href={project.demo_url.startsWith('http') ? project.demo_url : `https://${project.demo_url}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
                       Live Demo
                     </a>
                   )}

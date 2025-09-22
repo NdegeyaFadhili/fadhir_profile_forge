@@ -83,10 +83,10 @@ const ProfileSection = () => {
                 {displayProfile.email && <p>📧 {displayProfile.email}</p>}
                 {displayProfile.phone && <p>📱 {displayProfile.phone}</p>}
                 {displayProfile.linkedin_url && (
-                  <p>💼 <a href={`https://${displayProfile.linkedin_url}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{displayProfile.linkedin_url}</a></p>
+                  <p>💼 <a href={displayProfile.linkedin_url.startsWith('http') ? displayProfile.linkedin_url : `https://${displayProfile.linkedin_url}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{displayProfile.linkedin_url}</a></p>
                 )}
                 {displayProfile.github_url && (
-                  <p>💻 <a href={`https://${displayProfile.github_url}`} target="_blank" rel="noopener noreferrer" className="hover:underline">{displayProfile.github_url}</a></p>
+                  <p>💻 <a href={displayProfile.github_url.startsWith('http') ? displayProfile.github_url : `https://${displayProfile.github_url}`} target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">{displayProfile.github_url}</a></p>
                 )}
               </div>
             </div>

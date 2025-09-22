@@ -9,6 +9,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
+import FileUpload from "@/components/ui/file-upload";
 import { Plus, Edit, Trash2 } from "lucide-react";
 import type { Database } from "@/integrations/supabase/types";
 
@@ -189,27 +190,28 @@ const ProjectsManager = () => {
                   placeholder="React, TypeScript, Tailwind CSS"
                 />
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium">Image URL</label>
-                  <Input
-                    value={formData.image_url || ''}
-                    onChange={(e) => handleInputChange('image_url', e.target.value)}
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium">GitHub URL</label>
-                  <Input
-                    value={formData.github_url || ''}
-                    onChange={(e) => handleInputChange('github_url', e.target.value)}
-                  />
-                </div>
+              <div>
+                <label className="text-sm font-medium">Project Image</label>
+                <FileUpload
+                  bucket="project-images"
+                  value={formData.image_url || ''}
+                  onUpload={(url) => handleInputChange('image_url', url)}
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium">GitHub URL</label>
+                <Input
+                  value={formData.github_url || ''}
+                  onChange={(e) => handleInputChange('github_url', e.target.value)}
+                  placeholder="https://github.com/username/repository"
+                />
               </div>
               <div>
                 <label className="text-sm font-medium">Demo URL</label>
                 <Input
                   value={formData.demo_url || ''}
                   onChange={(e) => handleInputChange('demo_url', e.target.value)}
+                  placeholder="https://your-demo-site.com"
                 />
               </div>
               <div className="flex items-center space-x-2">
@@ -257,11 +259,25 @@ const ProjectsManager = () => {
                   ))}
                 </div>
               )}
-              <div className="flex gap-2 text-sm text-muted-foreground">
-                {project.github_url && <span>GitHub: ✓</span>}
-                {project.demo_url && <span>Demo: ✓</span>}
-                <span>Order: {project.display_order}</span>
-              </div>
+                <div className="flex gap-2 text-sm text-muted-foreground">
+                  {project.github_url && (
+                    <a href={project.github_url.startsWith('http') ? project.github_url : `https://${project.github_url}`} 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       className="text-primary hover:underline">
+                      GitHub ✓
+                    </a>
+                  )}
+                  {project.demo_url && (
+                    <a href={project.demo_url.startsWith('http') ? project.demo_url : `https://${project.demo_url}`} 
+                       target="_blank" 
+                       rel="noopener noreferrer"
+                       className="text-primary hover:underline">
+                      Demo ✓
+                    </a>
+                  )}
+                  <span>Order: {project.display_order}</span>
+                </div>
             </CardContent>
           </Card>
         ))}

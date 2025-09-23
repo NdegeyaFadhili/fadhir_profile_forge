@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useAuth } from "@/contexts/AuthProvider";
 import { Navigate } from "react-router-dom";
-import Navigation from "@/components/Navigation";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import ProfileManager from "@/components/admin/ProfileManager";
 import ProjectsManager from "@/components/admin/ProjectsManager";
@@ -23,10 +22,8 @@ const Admin = () => {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      <Navigation />
-      
-      <main className="container mx-auto px-6 py-8">
+    <div className="bg-background">
+      <div className="container mx-auto px-6 py-8">
         <h1 className="text-3xl font-bold mb-8">Portfolio Management</h1>
         
         <Tabs defaultValue="profile" className="w-full">
@@ -68,7 +65,7 @@ const Admin = () => {
             <ContactMessagesManager />
           </TabsContent>
         </Tabs>
-      </main>
+      </div>
     </div>
   );
 };

@@ -80,9 +80,8 @@ const Index = React.memo(() => {
   }
 
   return (
-    <div className="min-h-screen bg-background relative">
+    <div className="bg-background relative">
       <FloatingElements />
-      <Navigation />
       
       <main className="relative z-10">
         <section id="home" className="container mx-auto grid max-w-5xl gap-8 px-6 py-24 md:grid-cols-2 md:py-32 relative">
@@ -254,51 +253,6 @@ const Index = React.memo(() => {
 
       <AuthDialog open={authDialogOpen} onOpenChange={setAuthDialogOpen} />
 
-      <ScrollReveal direction="up">
-        <footer className="border-t py-8 bg-card/50 backdrop-blur-sm">
-          <div className="container mx-auto px-6 text-center">
-            <motion.div
-              className="space-y-4"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6 }}
-            >
-              <div className="flex justify-center space-x-6 text-muted-foreground">
-                <motion.a 
-                  href="#home" 
-                  className="hover:text-primary transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  Home
-                </motion.a>
-                <motion.a 
-                  href="#about" 
-                  className="hover:text-primary transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  About
-                </motion.a>
-                <motion.a 
-                  href="#projects" 
-                  className="hover:text-primary transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  Projects
-                </motion.a>
-                <motion.a 
-                  href="#contact" 
-                  className="hover:text-primary transition-colors"
-                  whileHover={{ scale: 1.1 }}
-                >
-                  Contact
-                </motion.a>
-              </div>
-              <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent"></div>
-              <p className="text-muted-foreground">&copy; 2024 Ndegeya Fadhiri. All rights reserved.</p>
-            </motion.div>
-          </div>
-        </footer>
-      </ScrollReveal>
     </div>
   );
 });

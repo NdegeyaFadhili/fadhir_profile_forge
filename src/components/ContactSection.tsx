@@ -1,6 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+interface Profile {
+  email?: string;
+  phone?: string;
+  location?: string;
+  linkedin_url?: string;
+  github_url?: string;
+}
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +18,32 @@ const ContactSection = () => {
     message: ''
   });
   const [loading, setLoading] = useState(false);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const { toast } = useToast();
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('email, phone, location, linkedin_url, github_url')
+          .single();
+
+        if (error && error.code !== 'PGRST116') { // PGRST116 is "not found"
+          console.error('Error fetching profile:', error);
+          return;
+        }
+
+        if (data) {
+          setProfile(data);
+        }
+      } catch (error) {
+        console.error('Error fetching profile:', error);
+      }
+    };
+
+    fetchProfile();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -56,23 +89,58 @@ const ContactSection = () => {
             <div>
               <h3 className="text-xl font-semibold mb-4">Contact Information</h3>
               <div className="space-y-3 text-muted-foreground">
-                <p className="flex items-center gap-3">
-                  <span className="font-medium">Email:</span> ihirwe@example.com
-                </p>
-                <p className="flex items-center gap-3">
-                  <span className="font-medium">Phone:</span> +250 XXX XXX XXX
-                </p>
-                <p className="flex items-center gap-3">
-                  <span className="font-medium">Location:</span> Gisozi, Kigali, Rwanda
-                </p>
-                <p className="flex items-center gap-3">
-                  <span className="font-medium">LinkedIn:</span> 
-                  <a href="#" className="text-primary hover:underline">linkedin.com/in/ihirwe</a>
-                </p>
-                <p className="flex items-center gap-3">
-                  <span className="font-medium">GitHub:</span> 
-                  <a href="#" className="text-primary hover:underline">github.com/ihirwe</a>
-                </p>
+                {profile?.email && (
+                  <p className="flex items-center gap-3">
+                    <span className="font-medium">Email:</span> 
+                    <a href={`mailto:${profile.email}`} className="text-primary hover:underline">
+                      {profile.email}
+                    </a>
+                  </p>
+                )}
+                {profile?.phone && (
+                  <p className="flex items-center gap-3">
+                    <span className="font-medium">Phone:</span> 
+                    <a href={`tel:${profile.phone}`} className="text-primary hover:underline">
+                      {profile.phone}
+                    </a>
+                  </p>
+                )}
+                {profile?.location && (
+                  <p className="flex items-center gap-3">
+                    <span className="font-medium">Location:</span> {profile.location}
+                  </p>
+                )}
+                {profile?.linkedin_url && (
+                  <p className="flex items-center gap-3">
+                    <span className="font-medium">LinkedIn:</span> 
+                    <a 
+                      href={profile.linkedin_url.startsWith('http') ? profile.linkedin_url : `https://${profile.linkedin_url}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-primary hover:underline"
+                    >
+                      {profile.linkedin_url.replace(/^https?:\/\//, '')}
+                    </a>
+                  </p>
+                )}
+                {profile?.github_url && (
+                  <p className="flex items-center gap-3">
+                    <span className="font-medium">GitHub:</span> 
+                    <a 
+                      href={profile.github_url.startsWith('http') ? profile.github_url : `https://${profile.github_url}`} 
+                      target="_blank" 
+                      rel="noopener noreferrer" 
+                      className="text-primary hover:underline"
+                    >
+                      {profile.github_url.replace(/^https?:\/\//, '')}
+                    </a>
+                  </p>
+                )}
+                {!profile?.email && !profile?.phone && !profile?.location && !profile?.linkedin_url && !profile?.github_url && (
+                  <p className="text-muted-foreground italic">
+                    Contact information will appear here once the owner adds their details.
+                  </p>
+                )}
               </div>
             </div>
           </div>

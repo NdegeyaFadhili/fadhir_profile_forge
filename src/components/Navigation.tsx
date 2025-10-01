@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
+import { Link, useLocation } from "react-router-dom";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 
 const Navigation = () => {
@@ -25,6 +26,7 @@ const Navigation = () => {
     }
   };
 
+  const location = useLocation();
   return (
     <motion.header 
       className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
@@ -36,14 +38,29 @@ const Navigation = () => {
       transition={{ duration: 0.35, ease: "easeInOut" }}
     >
       <div className="container mx-auto flex h-14 items-center justify-between px-6">
-        <motion.div 
-          className="font-semibold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          Ndegeya Fadhiri
-        </motion.div>
+        {location.pathname !== "/" ? (
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Link
+              to="/"
+              className="font-semibold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent focus:outline-none focus:ring-2 focus:ring-primary/50"
+            >
+              Ndegeya Fadhiri
+            </Link>
+          </motion.div>
+        ) : (
+          <motion.div
+            className="font-semibold text-lg bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent"
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Ndegeya Fadhiri
+          </motion.div>
+        )}
         
         <motion.nav 
           className="hidden md:flex items-center space-x-6 text-sm font-medium"

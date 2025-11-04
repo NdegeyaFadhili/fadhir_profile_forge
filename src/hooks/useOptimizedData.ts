@@ -63,8 +63,34 @@ export const useOptimizedData = () => {
         certificates: certificatesRes.data || [],
       });
     } catch (err) {
+      // Log the full error for debugging
       console.error('Error fetching portfolio data:', err);
-      setError(err instanceof Error ? err.message : 'Failed to fetch data');
+
+      // Build a helpful message. In dev, include full error properties for easier debugging.
+      let message = 'Failed to fetch data';
+      if (err instanceof Error) {
+        message = err.message;
+      } else if (err && typeof err === 'object') {
+        try {
+          // Include non-enumerable properties too
+          message = JSON.stringify(err, Object.getOwnPropertyNames(err));
+        } catch (_) {
+          message = String(err);
+        }
+      } else if (typeof err === 'string') {
+        message = err;
+      }
+
+      // If running in development, append the full JSON blob so you can inspect status/details
+      if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.DEV) {
+        try {
+          message += `\n\n[debug] ${JSON.stringify(err, Object.getOwnPropertyNames(err))}`;
+        } catch (_) {
+          // ignore stringify errors
+        }
+      }
+
+      setError(message);
     } finally {
       setLoading(false);
     }

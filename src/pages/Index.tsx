@@ -12,7 +12,7 @@ import { useAuth } from "@/contexts/AuthProvider";
 import { useOptimizedData } from "@/hooks/useOptimizedData";
 import { supabase } from "@/integrations/supabase/client";
 
-// Lazy load sections for better performance
+// Lazy load sections for better and good performance 
 const ProfileSection = React.lazy(() => import("@/components/ProfileSection"));
 const ProjectsSection = React.lazy(() => import("@/components/ProjectsSection"));
 const ContactSection = React.lazy(() => import("@/components/ContactSection"));
@@ -30,7 +30,8 @@ const Index = React.memo(() => {
     profile, 
     stats, 
     loading, 
-    error 
+    error,
+    refetch
   } = useOptimizedData();
 
   const handleSignOut = useCallback(async () => {
@@ -67,13 +68,21 @@ const Index = React.memo(() => {
       <div className="min-h-screen bg-background flex items-center justify-center p-6">
         <div className="text-center space-y-4 max-w-md">
           <h1 className="text-2xl font-bold text-destructive">Failed to Load Portfolio</h1>
-          <p className="text-muted-foreground">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
-          >
-            Retry
-          </button>
+          <p className="text-muted-foreground whitespace-pre-wrap">{error}</p>
+          <div className="flex justify-center gap-3">
+            <button 
+              onClick={() => refetch?.()} 
+              className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors"
+            >
+              Retry
+            </button>
+            <button
+              onClick={() => navigator.clipboard?.writeText(String(error || ''))}
+              className="px-4 py-2 border rounded-md hover:bg-muted/5 transition-colors"
+            >
+              Copy Error
+            </button>
+          </div>
         </div>
       </div>
     );
